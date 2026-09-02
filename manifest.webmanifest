@@ -1,0 +1,14 @@
+{
+  "name": "Барбер от Бога — барбершоп на Тарусской",
+  "short_name": "Барбер от Бога",
+  "lang": "ru",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#08090b",
+  "theme_color": "#08090b",
+  "description": "Мужской барбершоп в Москве, ул. Тарусская 14к1. Запись: +7 926 584-54-00.",
+  "icons": [
+    { "src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

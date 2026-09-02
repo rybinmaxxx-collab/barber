@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<!-- Каталог образцов — внутренний инструмент студии для ворот 2.
+     Тот же файл публикуется как Artifact для согласования с заказчиком. -->
+</head>
+<body>
+<title>Каталог образцов</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Commissioner:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --paper:#f3f4f6; --card:#ffffff; --ink:#111418; --dim:#61656e;
+  --rule:#dfe1e6; --rule-2:#eceef1;
+  --mark:#d6006e; --mark-soft:rgba(214,0,110,.09);
+  --slate:#3f4a5a;
+  --stage:#e9ebef;
+  --shadow:0 1px 2px rgba(17,20,24,.05), 0 8px 24px -16px rgba(17,20,24,.25);
+  --f-disp:"Unbounded","Trebuchet MS",sans-serif;
+  --f-body:"Commissioner",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"Courier New",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1014; --card:#161a20; --ink:#e7e9ee; --dim:#949aa6;
+    --rule:#252a33; --rule-2:#1d222a;
+    --mark:#ff3d95; --mark-soft:rgba(255,61,149,.13);
+    --slate:#9aa6b8; --stage:#0a0c0f;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1014; --card:#161a20; --ink:#e7e9ee; --dim:#949aa6;
+  --rule:#252a33; --rule-2:#1d222a;
+  --mark:#ff3d95; --mark-soft:rgba(255,61,149,.13);
+  --slate:#9aa6b8; --stage:#0a0c0f;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--f-body); font-size:15px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0; font-family:var(--f-disp); font-weight:600; letter-spacing:-.02em; text-wrap:balance}
+code,.mono{font-family:var(--f-mono)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--mark); outline-offset:2px; border-radius:3px}
+
+/* ---------- shell ---------- */
+.shell{max-width:1400px; margin:0 auto; padding:0 clamp(16px,3vw,40px)}
+
+header.top{
+  border-bottom:1px solid var(--rule);
+  padding:clamp(28px,5vw,56px) 0 clamp(20px,3vw,32px);
+  display:grid; grid-template-columns:1fr auto; gap:24px; align-items:end;
+}
+@media (max-width:760px){header.top{grid-template-columns:1fr}}
+.kicker{
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--mark); margin:0 0 14px;
+}
+header.top h1{font-size:clamp(28px,5vw,46px); line-height:1.02}
+header.top p{max-width:62ch; color:var(--dim); margin:14px 0 0}
+.legend{display:grid; gap:6px; font-family:var(--f-mono); font-size:11.5px; color:var(--dim)}
+.legend b{color:var(--ink); font-weight:500}
+
+/* ---------- tabs ---------- */
+nav.tabs{
+  position:sticky; top:0; z-index:30;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  display:flex; gap:2px; overflow-x:auto;
+}
+nav.tabs button{
+  background:none; border:0; padding:14px 16px;
+  font-family:var(--f-mono); font-size:12px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--dim); white-space:nowrap;
+  border-bottom:2px solid transparent; margin-bottom:-1px;
+}
+nav.tabs button[aria-selected="true"]{color:var(--ink); border-bottom-color:var(--mark)}
+
+/* ---------- layout ---------- */
+.body{display:grid; grid-template-columns:1fr 300px; gap:clamp(20px,3vw,44px); align-items:start; padding-bottom:80px}
+@media (max-width:1040px){.body{grid-template-columns:1fr}}
+
+.panel{display:none}
+.panel.on{display:block}
+.panel-head{padding:clamp(24px,4vw,40px) 0 18px}
+.panel-head h2{font-size:clamp(19px,2.4vw,24px)}
+.panel-head p{color:var(--dim); max-width:64ch; margin:8px 0 0; font-size:14.5px}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,318px),1fr)); gap:16px}
+
+/* ---------- specimen cell ---------- */
+.cell{
+  background:var(--card); border:1px solid var(--rule); border-radius:6px;
+  overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column;
+  transition:border-color .18s, box-shadow .18s;
+}
+.cell.picked{border-color:var(--mark); box-shadow:0 0 0 1px var(--mark), var(--shadow)}
+.cell-top{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; border-bottom:1px solid var(--rule-2)}
+.id{font-family:var(--f-mono); font-size:11.5px; font-weight:500; letter-spacing:.06em; color:var(--mark)}
+.pick{
+  display:inline-flex; align-items:center; gap:7px; background:none; border:1px solid var(--rule);
+  border-radius:100px; padding:4px 11px 4px 8px; font-size:11.5px; color:var(--dim);
+  font-family:var(--f-mono); letter-spacing:.04em; transition:.18s;
+}
+.pick .box{width:11px; height:11px; border:1px solid var(--dim); border-radius:2px; display:block; transition:.18s}
+.cell.picked .pick{background:var(--mark-soft); border-color:var(--mark); color:var(--mark)}
+.cell.picked .pick .box{background:var(--mark); border-color:var(--mark)}
+
+.stage{
+  position:relative; height:190px; background:var(--stage);
+  overflow:hidden; border-bottom:1px solid var(--rule-2);
+}
+.cell-foot{padding:12px 12px 14px; display:grid; gap:9px}
+.cell-foot h3{font-family:var(--f-body); font-size:14.5px; font-weight:600; letter-spacing:0}
+.cell-foot .use{font-size:13px; color:var(--dim); line-height:1.5}
+.spec{
+  display:flex; flex-wrap:wrap; gap:4px 6px;
+  font-family:var(--f-mono); font-size:10.5px; color:var(--slate);
+}
+.spec span{border:1px solid var(--rule); border-radius:3px; padding:2px 6px; white-space:nowrap}
+.replay{
+  justify-self:start; align-self:start; background:none; border:1px solid var(--rule); border-radius:4px;
+  padding:5px 10px; font-family:var(--f-mono); font-size:11px; letter-spacing:.05em; color:var(--dim);
+}
+.replay:hover{border-color:var(--ink); color:var(--ink)}
+
+/* ---------- demo primitives ---------- */
+.bar{position:absolute; background:var(--slate); border-radius:2px}
+.chip{position:absolute; background:var(--slate); border-radius:3px}
+.scroller{position:absolute; inset:0; overflow-y:auto; scrollbar-width:thin}
+.scroller::-webkit-scrollbar{width:5px}
+.scroller::-webkit-scrollbar-thumb{background:var(--rule); border-radius:3px}
+.tall{height:340px; position:relative}
+.hint{
+  position:absolute; right:8px; bottom:7px; z-index:5;
+  font-family:var(--f-mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--dim); background:color-mix(in srgb,var(--stage) 80%, transparent); padding:2px 6px; border-radius:3px;
+}
+.txtline{font-family:var(--f-disp); font-weight:600; font-size:23px; line-height:1.06; color:var(--ink)}
+.mask{overflow:hidden; display:block}
+
+/* ---------- wireframe (blocks) ---------- */
+.wf{position:absolute; inset:16px; display:grid; gap:8px}
+.wf div{background:var(--rule); border-radius:3px}
+.wf .accent{background:var(--slate); opacity:.55}
+.wf .txt{background:linear-gradient(var(--rule) 0 0) no-repeat; height:7px; border-radius:2px}
+
+/* ---------- palettes ---------- */
+.pal{position:absolute; inset:0; display:flex; flex-direction:column}
+.pal .swatches{flex:1; display:flex}
+.pal .swatches i{flex:1}
+.pal .demo{padding:12px 14px; display:grid; gap:6px}
+.pal .demo b{font-family:var(--f-disp); font-size:17px; font-weight:600}
+.pal .demo em{font-style:normal; font-size:11.5px; opacity:.72}
+
+/* ---------- basket ---------- */
+aside{position:sticky; top:56px; display:grid; gap:12px}
+@media (max-width:1040px){aside{position:static}}
+.basket{background:var(--card); border:1px solid var(--rule); border-radius:6px; box-shadow:var(--shadow); overflow:hidden}
+.basket h3{padding:13px 14px; border-bottom:1px solid var(--rule-2); font-family:var(--f-body); font-size:13px; font-weight:600; letter-spacing:.02em; display:flex; justify-content:space-between; align-items:center}
+.basket h3 span{font-family:var(--f-mono); font-size:11px; color:var(--dim); font-weight:400}
+.basket ul{list-style:none; margin:0; padding:8px 0; max-height:46vh; overflow:auto; display:grid; gap:1px}
+.basket li{display:flex; gap:9px; align-items:baseline; padding:5px 14px; font-size:13px}
+.basket li code{font-size:11px; color:var(--mark); flex:none}
+.basket li button{background:none;border:0;padding:0 0 0 4px;color:var(--dim);font-size:14px;line-height:1;margin-left:auto}
+.basket li button:hover{color:var(--mark)}
+.empty{padding:14px; color:var(--dim); font-size:13px; line-height:1.5}
+.basket-foot{padding:12px 14px; border-top:1px solid var(--rule-2); display:grid; gap:8px}
+.btn{
+  border:1px solid var(--ink); background:var(--ink); color:var(--paper);
+  border-radius:4px; padding:9px 12px; font-size:12.5px; font-family:var(--f-mono);
+  letter-spacing:.05em; text-align:center; transition:.18s;
+}
+.btn:hover{opacity:.86}
+.btn.ghost{background:none; color:var(--dim); border-color:var(--rule)}
+.btn.ghost:hover{color:var(--ink); border-color:var(--ink); opacity:1}
+.note{font-size:12px; color:var(--dim); line-height:1.5; padding:0 2px}
+
+dialog{
+  border:1px solid var(--rule); border-radius:8px; background:var(--card); color:var(--ink);
+  padding:0; max-width:min(680px,92vw); width:100%; box-shadow:0 30px 80px -30px rgba(0,0,0,.5);
+}
+dialog::backdrop{background:rgba(10,12,16,.55)}
+dialog .dh{padding:14px 16px; border-bottom:1px solid var(--rule-2); font-weight:600; font-size:14px; display:flex; justify-content:space-between; align-items:center}
+dialog .dh button{background:none;border:0;font-size:20px;line-height:1;color:var(--dim)}
+dialog textarea{
+  width:100%; min-height:300px; border:0; padding:14px 16px; resize:vertical;
+  font-family:var(--f-mono); font-size:12px; line-height:1.65; background:none; color:var(--ink);
+}
+dialog .df{padding:12px 16px; border-top:1px solid var(--rule-2); display:flex; gap:8px; justify-content:flex-end}
+
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important; transition-duration:.001ms !important}}
+</style>
+
+<div class="shell">
+  <header class="top">
+    <div>
+      <p class="kicker">Ворота 2 · Отбор решений</p>
+      <h1>Каталог образцов</h1>
+      <p>Не ссылки на чужие сайты, а живые образцы. Каждое решение имеет код. Отметьте нужные,
+        нажмите «Собрать решение» и пришлите получившийся текст — он станет фиксированным
+        техническим заданием, из которого собирается сайт.</p>
+    </div>
+    <div class="legend">
+      <div><b>M</b> — движение и интерактив</div>
+      <div><b>S</b> — компоновка секций</div>
+      <div><b>P</b> — палитра и типографика</div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="m">Движение · 14</button>
+    <button role="tab" aria-selected="false" data-tab="s">Блоки · 10</button>
+    <button role="tab" aria-selected="false" data-tab="p">Палитры · 5</button>
+  </nav>
+
+  <div class="body">
+    <main>
+      <section class="panel on" id="p-m">
+        <div class="panel-head">
+          <h2>Движение</h2>
+          <p>Наведите курсор или нажмите «проиграть». Образцы со скроллом крутятся внутри своей рамки —
+            прокрутите её колесом.</p>
+        </div>
+        <div class="grid" id="grid-m"></div>
+      </section>
+
+      <section class="panel" id="p-s">
+        <div class="panel-head">
+          <h2>Блоки</h2>
+          <p>Компоновка секций схемой. Порядок блоков на странице обсуждается отдельно —
+            здесь выбирается только раскладка каждого.</p>
+        </div>
+        <div class="grid" id="grid-s"></div>
+      </section>
+
+      <section class="panel" id="p-p">
+        <div class="panel-head">
+          <h2>Палитры</h2>
+          <p>Цвет и пара шрифтов идут вместе: шрифт меняет ощущение палитры сильнее, чем оттенок.
+            Выбирается одна.</p>
+        </div>
+        <div class="grid" id="grid-p"></div>
+      </section>
+    </main>
+
+    <aside>
+      <div class="basket">
+        <h3>Отобрано <span id="count">0</span></h3>
+        <ul id="picked"></ul>
+        <div class="empty" id="empty">Пока ничего не отмечено. Отмечайте образцы кнопкой справа от кода.</div>
+        <div class="basket-foot">
+          <button class="btn" id="build">Собрать решение</button>
+          <button class="btn ghost" id="clear">Очистить</button>
+        </div>
+      </div>
+      <p class="note">Отметки хранятся в этом браузере — можно закрыть страницу и вернуться позже.</p>
+    </aside>
+  </div>
+</div>
+
+<dialog id="out">
+  <div class="dh">Решение по воротам 2 <button id="close" aria-label="Закрыть">×</button></div>
+  <textarea id="outtext" readonly></textarea>
+  <div class="df">
+    <button class="btn ghost" id="copy">Скопировать</button>
+  </div>
+</dialog>
+
+<script>
+(() => {
+"use strict";
+const E = (t, c, h) => { const e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
+const EASE = "cubic-bezier(.22,1,.36,1)";
+
+/* ================= каталог ================= */
+const MOTION = [
+  { id:"M-01", name:"Проявление снизу", use:"Базовый вход любого блока при попадании в экран.",
+    spec:["в экране","0.9 с","y +38px"], build: s => barsScene(s), play: st => stagger(st, [{opacity:[0,1],transform:["translateY(30px)","none"]}], 900, 90) },
+  { id:"M-02", name:"Строки из маски", use:"Заголовок первого экрана. Дорого выглядит, дёшево стоит.",
+    spec:["загрузка","1.25 с","expo.out"], build: s => linesScene(s), play: st => stagger(st, [{transform:["translateY(115%)","none"]}], 1100, 110) },
+  { id:"M-03", name:"Побуквенный набор", use:"Короткие слоганы. На длинном тексте раздражает.",
+    spec:["в экране","0.7 с","шаг 25 мс"], build: s => charsScene(s), play: st => stagger(st, [{opacity:[0,1],transform:["translateY(14px)","none"]}], 620, 26) },
+  { id:"M-04", name:"Шторка clip-path", use:"Раскрытие фото или карточки. Строгое, без болтанки.",
+    spec:["в экране","0.9 с","inset"], build: s => plateScene(s), play: st => stagger(st, [{clipPath:["inset(0 100% 0 0)","inset(0 0% 0 0)"]}], 900, 120) },
+  { id:"M-05", name:"Параллакс слоёв", use:"Глубина в блоке «о нас». Слои едут с разной скоростью.",
+    spec:["скролл","привязка","0.8–0.95"], scroll:true, build: s => parallaxScene(s) },
+  { id:"M-06", name:"Горизонтальная лента", use:"Галерея работ. Вертикальный скролл двигает ленту вбок.",
+    spec:["скролл","привязка","X"], scroll:true, build: s => hstripScene(s) },
+  { id:"M-07", name:"Липкая секция", use:"Один экран держится, контент внутри сменяется.",
+    spec:["скролл","pin","3 шага"], scroll:true, build: s => pinScene(s) },
+  { id:"M-08", name:"Стопка карточек", use:"Услуги или этапы: карточки наезжают друг на друга.",
+    spec:["скролл","sticky","масштаб"], scroll:true, build: s => stackScene(s) },
+  { id:"M-09", name:"Реактивная бегущая строка", use:"Перебивка между секциями. Меняет направление вместе со скроллом.",
+    spec:["скролл","бесконечно","направление"], scroll:true, build: s => marqueeScene(s) },
+  { id:"M-10", name:"3D-наклон карточки", use:"Карточки мастеров и работ. Наведите курсор.",
+    spec:["курсор","±14°","блик"], build: s => tiltScene(s) },
+  { id:"M-11", name:"Магнитная кнопка", use:"Главная кнопка притягивается к курсору. Наведите.",
+    spec:["курсор","0.3","возврат"], build: s => magnetScene(s) },
+  { id:"M-12", name:"Кастомный курсор", use:"Кольцо вместо стрелки, растёт над ссылками. Наведите на рамку.",
+    spec:["курсор","lerp .16","difference"], build: s => cursorScene(s) },
+  { id:"M-13", name:"Счётчик", use:"Цифры доверия: рейтинг, отзывы, годы.",
+    spec:["в экране","1.4 с","ease-out"], build: s => counterScene(s), play: st => st._run && st._run() },
+  { id:"M-14", name:"Наклон по скорости", use:"Вся страница слегка кренится при быстром скролле.",
+    spec:["скролл","скорость","skew ≤6°"], scroll:true, build: s => skewScene(s) },
+];
+
+const BLOCKS = [
+  { id:"S-01", name:"Герой: текст слева, медиа справа", use:"Классика. Быстро читается, легко наполняется.", cols:"1fr 1fr", kind:"hero-split" },
+  { id:"S-02", name:"Герой: медиа во весь экран", use:"Текст поверх фото или 3D. Нужен сильный визуал.", kind:"hero-full" },
+  { id:"S-03", name:"Герой: крупная типографика", use:"Имя бренда во весь экран, медиа — фоном.", kind:"hero-type" },
+  { id:"S-04", name:"Прайс списком", use:"Много позиций. Цена справа, описание слева.", kind:"price-rows" },
+  { id:"S-05", name:"Прайс карточками", use:"3–4 пакета услуг с выделенным рекомендуемым.", kind:"price-cards" },
+  { id:"S-06", name:"Галерея лентой", use:"Работы горизонтальной полосой, едет на скролле.", kind:"gal-strip" },
+  { id:"S-07", name:"Галерея мозаикой", use:"Плотная сетка разноразмерных снимков.", kind:"gal-mosaic" },
+  { id:"S-08", name:"Отзывы: панель рейтинга и цитаты", use:"Крупная оценка слева, реальные отзывы рядом.", kind:"reviews" },
+  { id:"S-09", name:"FAQ-аккордеон", use:"Снимает возражения и даёт микроразметку FAQPage.", kind:"faq" },
+  { id:"S-10", name:"Контакты с картой", use:"Адрес, телефон, режим и встроенная карта.", kind:"contacts" },
+];
+
+const PALETTES = [
+  { id:"P-01", name:"Латунь по углю", use:"Барбершоп, бар, тату. Тёмно и дорого.",
+    colors:["#08090b","#15181e","#c9a227","#7a1f22","#f4efe6"], bg:"#08090b", fg:"#f4efe6", accent:"#c9a227",
+    fonts:"Oswald + Manrope" },
+  { id:"P-02", name:"Бумага и графит", use:"Студия, бюро, консалтинг. Тихо и уверенно.",
+    colors:["#f6f5f2","#e6e4de","#1a1a1a","#5c5c5c","#b5462f"], bg:"#f6f5f2", fg:"#1a1a1a", accent:"#b5462f",
+    fonts:"Unbounded + Commissioner" },
+  { id:"P-03", name:"Хвоя и молоко", use:"Клиника, спа, детские услуги. Спокойно и чисто.",
+    colors:["#fbfaf7","#e8ede8","#14372c","#2f7a5c","#c9a227"], bg:"#fbfaf7", fg:"#14372c", accent:"#2f7a5c",
+    fonts:"Golos Text + Golos Text" },
+  { id:"P-04", name:"Кобальт по белому", use:"Сервис, доставка, техника. Ярко и функционально.",
+    colors:["#ffffff","#eef1f8","#0b1020","#1f3bd6","#ff5c35"], bg:"#ffffff", fg:"#0b1020", accent:"#1f3bd6",
+    fonts:"Onest + Onest" },
+  { id:"P-05", name:"Ночь и неон", use:"Клуб, гейминг, вечерние услуги. Требует сильного контента.",
+    colors:["#07070a","#131320","#e6e6f0","#7b5cff","#22d3a5"], bg:"#07070a", fg:"#e6e6f0", accent:"#7b5cff",
+    fonts:"Unbounded + Inter" },
+];
+
+/* ================= сцены-образцы ================= */
+function stagger(stage, frames, dur, step){
+  const els = [...stage.querySelectorAll("[data-anim]")];
+  els.forEach((el, i) => el.animate(frames, { duration: dur, delay: i * step, easing: EASE, fill: "both" }));
+}
+
+function barsScene(s){
+  const w = E("div"); w.style.cssText = "position:absolute;inset:26px;display:grid;gap:11px;align-content:center";
+  [72, 100, 86, 54].forEach(p => { const b = E("div"); b.dataset.anim = ""; b.style.cssText = `height:13px;width:${p}%;background:var(--slate);opacity:.55;border-radius:3px`; w.appendChild(b); });
+  s.appendChild(w); return () => {};
+}
+function linesScene(s){
+  const w = E("div"); w.style.cssText = "position:absolute;inset:24px;display:grid;gap:2px;align-content:center";
+  ["Барбер", "от Бога"].forEach(t => {
+    const m = E("span", "mask"); const i = E("span", "txtline", t); i.dataset.anim = ""; m.appendChild(i); w.appendChild(m);
+  });
+  s.appendChild(w);
+}
+function charsScene(s){
+  const w = E("div"); w.style.cssText = "position:absolute;inset:24px;display:flex;align-items:center;flex-wrap:wrap";
+  [..."Ремесло"].forEach(c => { const i = E("span", "txtline", c); i.dataset.anim = ""; i.style.display = "inline-block"; w.appendChild(i); });
+  s.appendChild(w);
+}
+function plateScene(s){
+  const w = E("div"); w.style.cssText = "position:absolute;inset:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px";
+  for (let i = 0; i < 4; i++){ const b = E("div"); b.dataset.anim = ""; b.style.cssText = "background:var(--slate);opacity:.5;border-radius:3px"; w.appendChild(b); }
+  s.appendChild(w);
+}
+
+function scrollHost(s, tallPx = 360){
+  const sc = E("div", "scroller"); const inner = E("div", "tall"); inner.style.height = tallPx + "px";
+  sc.appendChild(inner); s.appendChild(sc); s.appendChild(E("div", "hint", "прокрутите"));
+  const prog = () => sc.scrollTop / Math.max(sc.scrollHeight - sc.clientHeight, 1);
+  return { sc, inner, prog, on: fn => { const h = () => fn(prog()); sc.addEventListener("scroll", h, { passive: true }); h(); },
+           auto: () => { const to = sc.scrollTop > 5 ? 0 : sc.scrollHeight; sc.scrollTo({ top: to, behavior: "smooth" }); } };
+}
+
+function parallaxScene(s){
+  const h = scrollHost(s);
+  const stick = E("div"); stick.style.cssText = "position:sticky;top:0;height:190px;overflow:hidden";
+  const layers = [[.72, "18%", "42%", 74, 96], [.86, "56%", "26%", 58, 74], [1.0, "34%", "62%", 40, 52]];
+  const nodes = layers.map(([sp, l, t, w, hh]) => { const d = E("div", "chip"); d.style.cssText = `left:${l};top:${t};width:${w}px;height:${hh}px;opacity:.5;background:var(--slate)`; stick.appendChild(d); return { d, sp }; });
+  h.inner.prepend(stick);
+  h.on(p => nodes.forEach(n => n.d.style.transform = `translateY(${(1 - n.sp) * 150 * (p - .5) * 2}px)`));
+  return h.auto;
+}
+function hstripScene(s){
+  const h = scrollHost(s);
+  const stick = E("div"); stick.style.cssText = "position:sticky;top:0;height:190px;display:flex;align-items:center;overflow:hidden";
+  const track = E("div"); track.style.cssText = "display:flex;gap:10px;padding-left:20px;will-change:transform";
+  for (let i = 1; i <= 6; i++){ const c = E("div", null, `<span style="position:absolute;left:8px;bottom:6px;font-family:var(--f-mono);font-size:10px;opacity:.8">0${i}</span>`); c.style.cssText = "position:relative;flex:none;width:104px;height:132px;background:var(--slate);opacity:.55;border-radius:3px;color:var(--paper)"; track.appendChild(c); }
+  stick.appendChild(track); h.inner.prepend(stick);
+  h.on(p => track.style.transform = `translateX(${-p * 430}px)`);
+  return h.auto;
+}
+function pinScene(s){
+  const h = scrollHost(s, 420);
+  const stick = E("div"); stick.style.cssText = "position:sticky;top:0;height:190px;display:grid;place-items:center;overflow:hidden";
+  const steps = ["Разбираем форму", "Стрижём", "Учим укладке"];
+  const nodes = steps.map((t, i) => { const d = E("div", "txtline", t); d.style.cssText = "position:absolute;transition:opacity .25s, transform .25s;font-size:19px"; if (i) d.style.opacity = 0; stick.appendChild(d); return d; });
+  const dots = E("div"); dots.style.cssText = "position:absolute;bottom:14px;display:flex;gap:6px";
+  const dn = steps.map(() => { const i = E("i"); i.style.cssText = "width:16px;height:2px;background:var(--rule);display:block"; dots.appendChild(i); return i; });
+  stick.appendChild(dots); h.inner.prepend(stick);
+  h.on(p => { const k = Math.min(Math.floor(p * 3), 2); nodes.forEach((n, i) => { n.style.opacity = i === k ? 1 : 0; n.style.transform = `translateY(${(i - k) * 14}px)`; }); dn.forEach((d, i) => d.style.background = i === k ? "var(--mark)" : "var(--rule)"); });
+  return h.auto;
+}
+function stackScene(s){
+  const h = scrollHost(s, 460);
+  const wrap = E("div"); wrap.style.cssText = "position:relative;padding:26px 26px 0";
+  for (let i = 0; i < 3; i++){
+    const c = E("div", null, `<span style="font-family:var(--f-mono);font-size:11px">Услуга 0${i + 1}</span>`);
+    c.style.cssText = `position:sticky;top:${18 + i * 14}px;height:104px;margin-bottom:26px;border-radius:5px;background:var(--card);border:1px solid var(--rule);display:grid;place-items:center;box-shadow:0 -6px 18px -12px rgba(0,0,0,.5)`;
+    wrap.appendChild(c);
+  }
+  h.inner.prepend(wrap); return h.auto;
+}
+function marqueeScene(s){
+  const h = scrollHost(s);
+  const stick = E("div"); stick.style.cssText = "position:sticky;top:0;height:190px;display:grid;align-content:center;gap:12px;overflow:hidden";
+  const mk = () => { const r = E("div"); r.style.cssText = "display:flex;gap:22px;width:max-content;will-change:transform"; for (let i = 0; i < 10; i++){ const t = E("span", "txtline", i % 2 ? "БОРОДА" : "СТРИЖКА"); t.style.cssText = "font-size:17px;opacity:.3;white-space:nowrap"; r.appendChild(t); } return r; };
+  const a = mk(), b = mk(); stick.append(a, b); h.inner.prepend(stick);
+  let x = 0, last = 0, dir = 1;
+  h.on(p => { dir = p >= last ? 1 : -1; last = p; });
+  (function loop(){ x -= 0.6 * dir; if (x < -520) x = 0; if (x > 0) x = -520; a.style.transform = `translateX(${x}px)`; b.style.transform = `translateX(${-x - 260}px)`; requestAnimationFrame(loop); })();
+  return h.auto;
+}
+function tiltScene(s){
+  const w = E("div"); w.style.cssText = "position:absolute;inset:0;display:grid;place-items:center;perspective:800px";
+  const c = E("div", null, `<span style="font-family:var(--f-mono);font-size:11px;opacity:.8">Надир</span>`);
+  c.style.cssText = "width:118px;height:144px;border-radius:5px;background:var(--card);border:1px solid var(--rule);display:grid;place-items:end center;padding-bottom:12px;transition:transform .3s var(--ease,cubic-bezier(.22,1,.36,1));position:relative;overflow:hidden";
+  const glow = E("div"); glow.style.cssText = "position:absolute;inset:0;opacity:0;transition:opacity .3s;background:radial-gradient(120px circle at var(--mx,50%) var(--my,50%), var(--mark-soft), transparent 65%)";
+  c.appendChild(glow); w.appendChild(c); s.appendChild(w); s.appendChild(E("div", "hint", "наведите"));
+  s.addEventListener("pointermove", e => { const r = c.getBoundingClientRect(); const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height; c.style.transform = `rotateY(${(px - .5) * 16}deg) rotateX(${(.5 - py) * 16}deg)`; c.style.setProperty("--mx", px * 100 + "%"); c.style.setProperty("--my", py * 100 + "%"); glow.style.opacity = 1; });
+  s.addEventListener("pointerleave", () => { c.style.transform = ""; glow.style.opacity = 0; });
+}
+function magnetScene(s){
+  const w = E("div"); w.style.cssText = "position:absolute;inset:0;display:grid;place-items:center";
+  const b = E("div", null, "ЗАПИСАТЬСЯ"); b.style.cssText = "padding:13px 22px;border:1px solid var(--slate);border-radius:3px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;transition:transform .28s cubic-bezier(.22,1,.36,1)";
+  w.appendChild(b); s.appendChild(w); s.appendChild(E("div", "hint", "наведите"));
+  s.addEventListener("pointermove", e => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .35}px,${(e.clientY - r.top - r.height / 2) * .35}px)`; });
+  s.addEventListener("pointerleave", () => b.style.transform = "");
+}
+function cursorScene(s){
+  const w = E("div"); w.style.cssText = "position:absolute;inset:0;display:grid;place-items:center;cursor:none";
+  const link = E("div", "txtline", "Ссылка"); link.style.cssText = "font-size:19px;padding:8px 14px";
+  const ring = E("div"); ring.style.cssText = "position:absolute;width:30px;height:30px;border:1px solid var(--slate);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .25s,height .25s;opacity:0";
+  w.append(link, ring); s.appendChild(w); s.appendChild(E("div", "hint", "наведите"));
+  let x = 0, y = 0, tx = 0, ty = 0;
+  s.addEventListener("pointermove", e => { const r = s.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top; ring.style.opacity = 1; });
+  s.addEventListener("pointerleave", () => ring.style.opacity = 0);
+  link.addEventListener("pointerenter", () => { ring.style.width = "62px"; ring.style.height = "62px"; });
+  link.addEventListener("pointerleave", () => { ring.style.width = "30px"; ring.style.height = "30px"; });
+  (function loop(){ x += (tx - x) * .16; y += (ty - y) * .16; ring.style.left = x + "px"; ring.style.top = y + "px"; requestAnimationFrame(loop); })();
+}
+function counterScene(s){
+  const w = E("div"); w.style.cssText = "position:absolute;inset:0;display:flex;gap:26px;align-items:center;justify-content:center";
+  const items = [["5,0", "рейтинг", 5, 1], ["72", "отзыва", 72, 0], ["84", "оценки", 84, 0]];
+  const nodes = items.map(([, lab, end, dec]) => {
+    const d = E("div"); d.style.cssText = "text-align:center";
+    const b = E("div", "txtline", "0"); b.style.fontSize = "26px";
+    const l = E("div", null, lab); l.style.cssText = "font-family:var(--f-mono);font-size:10px;color:var(--dim);margin-top:4px";
+    d.append(b, l); w.appendChild(d); return { b, end, dec };
+  });
+  s.appendChild(w);
+  s._run = () => nodes.forEach(n => { const t0 = performance.now(); const st = t => { const k = Math.min((t - t0) / 1400, 1); n.b.textContent = (n.end * (1 - Math.pow(1 - k, 3))).toFixed(n.dec).replace(".", ","); if (k < 1) requestAnimationFrame(st); }; requestAnimationFrame(st); });
+  s._run();
+}
+function skewScene(s){
+  const h = scrollHost(s, 520);
+  const stick = E("div"); stick.style.cssText = "position:sticky;top:0;height:190px;display:grid;align-content:center;gap:9px;padding:0 24px;overflow:hidden;will-change:transform";
+  [90, 66, 100, 44].forEach(p => { const b = E("div"); b.style.cssText = `height:15px;width:${p}%;background:var(--slate);opacity:.5;border-radius:3px`; stick.appendChild(b); });
+  h.inner.prepend(stick);
+  let last = 0, v = 0;
+  h.sc.addEventListener("scroll", () => { v = Math.max(-6, Math.min(6, (h.sc.scrollTop - last) * .35)); last = h.sc.scrollTop; }, { passive: true });
+  (function loop(){ v *= .9; stick.style.transform = `skewY(${v}deg)`; requestAnimationFrame(loop); })();
+  return h.auto;
+}
+
+/* ---------- wireframes ---------- */
+const WF = {
+  "hero-split": `<div class="wf" style="grid-template-columns:1fr 1fr;align-items:center"><div style="display:grid;gap:6px;align-content:center"><div class="txt" style="width:50%"></div><div style="height:20px"></div><div class="txt" style="width:90%;height:11px"></div><div class="txt" style="width:70%;height:11px"></div><div style="height:6px"></div><div class="accent" style="height:22px;width:60%"></div></div><div class="accent" style="height:100%"></div></div>`,
+  "hero-full": `<div class="wf" style="grid-template-rows:1fr"><div class="accent" style="position:relative;display:grid;place-items:center;gap:6px;padding:20px"><div class="txt" style="width:60%;height:13px;background:var(--card)"></div><div class="txt" style="width:44%;height:9px;background:var(--card)"></div><div style="height:20px;width:38%;background:var(--card);border-radius:3px;margin-top:6px"></div></div></div>`,
+  "hero-type": `<div class="wf" style="grid-template-rows:1fr auto"><div style="display:grid;align-content:center;gap:7px;background:transparent"><div class="accent" style="height:26px;width:88%"></div><div class="accent" style="height:26px;width:64%"></div></div><div style="display:flex;gap:8px"><div class="txt" style="flex:1"></div><div class="txt" style="flex:1"></div><div class="txt" style="flex:1"></div></div></div>`,
+  "price-rows": `<div class="wf" style="grid-template-rows:auto 1fr"><div class="txt" style="width:36%;height:11px"></div><div style="display:grid;gap:9px;align-content:start;background:transparent">${[0,1,2,3].map(()=>`<div style="display:flex;gap:10px;align-items:center;background:transparent"><div class="txt" style="flex:1"></div><div class="accent" style="width:38px;height:9px"></div></div>`).join("")}</div></div>`,
+  "price-cards": `<div class="wf" style="grid-template-columns:1fr 1fr 1fr;align-items:stretch">${[0,1,2].map(i=>`<div class="${i===1?"accent":""}" style="display:grid;gap:6px;padding:10px;align-content:start;border-radius:4px"><div class="txt" style="width:70%;background:var(--card)"></div><div class="txt" style="width:46%;height:12px;background:var(--card)"></div><div class="txt" style="width:90%;background:var(--card)"></div></div>`).join("")}</div>`,
+  "gal-strip": `<div class="wf" style="grid-template-rows:auto 1fr"><div class="txt" style="width:30%;height:11px"></div><div style="display:flex;gap:8px;background:transparent">${[0,1,2,3].map(()=>`<div class="accent" style="flex:none;width:46px"></div>`).join("")}<div class="accent" style="flex:none;width:46px;opacity:.25"></div></div></div>`,
+  "gal-mosaic": `<div class="wf" style="grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr"><div class="accent" style="grid-row:span 2"></div><div class="accent"></div><div class="accent"></div><div class="accent"></div><div class="accent"></div></div>`,
+  "reviews": `<div class="wf" style="grid-template-columns:1fr 1fr 1fr"><div class="accent" style="display:grid;place-content:center;border-radius:4px"><div class="txt" style="width:40px;height:20px;background:var(--card)"></div></div><div style="display:grid;gap:6px;align-content:start;padding:8px;border:1px solid var(--rule);border-radius:4px;background:transparent"><div class="txt" style="width:90%"></div><div class="txt" style="width:76%"></div><div class="txt" style="width:50%"></div></div><div style="display:grid;gap:6px;align-content:start;padding:8px;border:1px solid var(--rule);border-radius:4px;background:transparent"><div class="txt" style="width:88%"></div><div class="txt" style="width:60%"></div></div></div>`,
+  "faq": `<div class="wf" style="grid-template-rows:auto 1fr"><div class="txt" style="width:26%;height:11px"></div><div style="display:grid;gap:8px;align-content:start;background:transparent">${[0,1,2,3].map(i=>`<div style="display:flex;gap:8px;align-items:center;background:transparent;border-bottom:1px solid var(--rule);padding-bottom:7px"><div class="txt" style="flex:1;${i===0?"height:9px":""}"></div><div class="accent" style="width:9px;height:9px;border-radius:50%"></div></div>`).join("")}</div></div>`,
+  "contacts": `<div class="wf" style="grid-template-columns:1fr 1.2fr"><div style="display:grid;gap:9px;align-content:start;background:transparent">${[0,1,2].map(()=>`<div style="display:flex;gap:7px;background:transparent"><div class="accent" style="width:9px;height:9px;border-radius:2px"></div><div class="txt" style="flex:1"></div></div>`).join("")}<div class="accent" style="height:20px;width:70%;margin-top:6px"></div></div><div class="accent" style="opacity:.35"></div></div>`,
+};
+
+/* ================= отрисовка ================= */
+const store = (() => {
+  let v = [];
+  try { v = JSON.parse(localStorage.getItem("lab.picked") || "[]"); } catch (e) { v = []; }
+  return {
+    all: () => v,
+    has: id => v.includes(id),
+    toggle: id => { v = v.includes(id) ? v.filter(x => x !== id) : [...v, id]; save(); },
+    remove: id => { v = v.filter(x => x !== id); save(); },
+    clear: () => { v = []; save(); },
+  };
+  function save(){ try { localStorage.setItem("lab.picked", JSON.stringify(v)); } catch (e) {} }
+})();
+
+const REG = {};
+
+function cell(item, buildStage, specs){
+  const c = E("div", "cell"); c.dataset.id = item.id;
+  REG[item.id] = item.name;
+
+  const top = E("div", "cell-top");
+  top.appendChild(E("span", "id", item.id));
+  const pick = E("button", "pick", '<span class="box"></span>отобрать');
+  pick.setAttribute("aria-pressed", "false");
+  top.appendChild(pick); c.appendChild(top);
+
+  const stage = E("div", "stage"); c.appendChild(stage);
+  const auto = buildStage(stage);
+
+  const foot = E("div", "cell-foot");
+  foot.appendChild(E("h3", null, item.name));
+  foot.appendChild(E("p", "use", item.use));
+  const sp = E("div", "spec"); (specs || []).forEach(t => sp.appendChild(E("span", null, t))); foot.appendChild(sp);
+  if (item.play || auto){
+    const r = E("button", "replay", "▶ проиграть");
+    r.addEventListener("click", () => item.play ? item.play(stage) : auto());
+    foot.appendChild(r);
+  }
+  c.appendChild(foot);
+
+  const sync = () => {
+    const on = store.has(item.id);
+    c.classList.toggle("picked", on);
+    pick.setAttribute("aria-pressed", String(on));
+    pick.lastChild.textContent = on ? "отобрано" : "отобрать";
+  };
+  pick.addEventListener("click", () => { store.toggle(item.id); sync(); renderBasket(); });
+  c._sync = sync; sync();
+  return c;
+}
+
+const gm = document.getElementById("grid-m");
+MOTION.forEach(m => {
+  const c = cell(m, stage => m.build(stage), m.spec);
+  gm.appendChild(c);
+  if (m.play) new IntersectionObserver((e, o) => { if (e[0].isIntersecting){ m.play(c.querySelector(".stage")); o.disconnect(); } }, { threshold: .5 }).observe(c);
+});
+
+const gs = document.getElementById("grid-s");
+BLOCKS.forEach(b => gs.appendChild(cell(b, stage => { stage.innerHTML = WF[b.kind] || ""; }, ["схема"])));
+
+const gp = document.getElementById("grid-p");
+PALETTES.forEach(p => gp.appendChild(cell(p, stage => {
+  const w = E("div", "pal");
+  const sw = E("div", "swatches"); p.colors.forEach(c => { const i = E("i"); i.style.background = c; sw.appendChild(i); }); w.appendChild(sw);
+  const d = E("div", "demo"); d.style.cssText += `background:${p.bg};color:${p.fg}`;
+  const b = E("b", null, "Барбер от Бога"); b.style.color = p.fg;
+  const e = E("em", null, "Записаться · 1 300 ₽"); e.style.color = p.accent;
+  d.append(b, e); w.appendChild(d); stage.appendChild(w);
+}, [p.fonts])));
+
+/* ---------- basket ---------- */
+const ul = document.getElementById("picked"), empty = document.getElementById("empty"), count = document.getElementById("count");
+function renderBasket(){
+  const ids = store.all();
+  count.textContent = ids.length;
+  empty.style.display = ids.length ? "none" : "block";
+  ul.innerHTML = "";
+  ids.forEach(id => {
+    const li = E("li");
+    li.appendChild(E("code", null, id));
+    li.appendChild(E("span", null, REG[id] || ""));
+    const x = E("button", null, "×"); x.title = "убрать";
+    x.addEventListener("click", () => { store.remove(id); document.querySelectorAll(".cell").forEach(c => c._sync && c._sync()); renderBasket(); });
+    li.appendChild(x); ul.appendChild(li);
+  });
+}
+renderBasket();
+
+document.getElementById("clear").addEventListener("click", () => {
+  store.clear(); document.querySelectorAll(".cell").forEach(c => c._sync && c._sync()); renderBasket();
+});
+
+/* ---------- tabs ---------- */
+document.querySelectorAll("nav.tabs button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("nav.tabs button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id === "p-" + b.dataset.tab));
+}));
+
+/* ---------- вывод решения ---------- */
+const dlg = document.getElementById("out"), ta = document.getElementById("outtext");
+document.getElementById("build").addEventListener("click", () => {
+  const ids = store.all();
+  const grp = k => ids.filter(i => i.startsWith(k)).map(i => `- ${i} — ${REG[i]}`);
+  const m = grp("M"), s = grp("S"), p = grp("P");
+  ta.value = [
+    "РЕШЕНИЕ ПО ВОРОТАМ 2 — отбор образцов",
+    "Дата: " + new Date().toLocaleDateString("ru-RU"),
+    "",
+    "ДВИЖЕНИЕ" , m.length ? m.join("\n") : "- не выбрано",
+    "",
+    "БЛОКИ", s.length ? s.join("\n") : "- не выбрано",
+    "",
+    "ПАЛИТРА", p.length ? p.join("\n") : "- не выбрано",
+    "",
+    "Всё, что не перечислено, в работу не берётся.",
+    "Изменение этого списка после утверждения = новые ворота 2, а не правка.",
+  ].join("\n");
+  dlg.showModal();
+});
+document.getElementById("close").addEventListener("click", () => dlg.close());
+document.getElementById("copy").addEventListener("click", async e => {
+  try { await navigator.clipboard.writeText(ta.value); e.target.textContent = "Скопировано"; setTimeout(() => e.target.textContent = "Скопировать", 1600); }
+  catch (err) { ta.select(); }
+});
+})();
+</script>
+
+</body>
+</html>
