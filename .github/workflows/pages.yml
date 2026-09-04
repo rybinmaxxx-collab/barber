@@ -38,11 +38,11 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
         run: npm run build
       - run: touch out/.nojekyll
+      # Требует, чтобы Pages были включены в репозитории:
+      # Settings → Pages → Source: GitHub Actions.
+      # Включить их из workflow нельзя — у токена Actions нет прав
+      # администратора репозитория.
       - uses: actions/configure-pages@v5
-        # enablement: true включает Pages в репозитории сам, если он ещё
-        # не включён, — иначе шаг падает с «Get Pages site failed».
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
