@@ -2,6 +2,7 @@
 
 import { gsap, animateTextOnScroll } from '@/lib/gsap';
 import { useSectionAnimation } from '@/lib/useSectionAnimation';
+import { asset } from '@/lib/asset';
 import { fathers } from '@/lib/content';
 
 /** Блок 6 — Отцы и сыновья (ТЗ, раздел 7): изображение открывается clip-path. */
@@ -67,7 +68,7 @@ export default function Fathers() {
 
       <div className="fathers__media">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/father-son.svg" alt="Отец и сын в барбершопе" />
+        <img src={asset('/images/father-son.svg')} alt="Отец и сын в барбершопе" />
       </div>
     </section>
   );

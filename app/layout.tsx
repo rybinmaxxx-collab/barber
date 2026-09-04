@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { schema } from '@/lib/schema';
+import { asset } from '@/lib/asset';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://barber-ot-boga.ru'),
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   description:
     'Барбершоп «Барбер от Бога», Москва, Ясенево, ул. Тарусская 14к1, 200 м от метро. Один мастер, одно кресло, запись заранее. Стрижка 1300 ₽, ножницами 1500 ₽, с бородой 2000 ₽, детская от 1000 ₽. 5,0 на Яндекс.Картах, 74 отзыва, «Хорошее место 2026». Ежедневно 10:00–22:00.',
   alternates: { canonical: 'https://barber-ot-boga.ru/' },
-  manifest: '/manifest.webmanifest',
+  manifest: asset('/manifest.webmanifest'),
   robots: {
     index: true,
     follow: true,
@@ -54,20 +55,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru">
       <head>
-        <link
-          rel="preload"
-          href="/fonts/oswald-600-cyrillic.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/manrope-400-cyrillic.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
         {/* Микроразметка: значения — из карточки Яндекс.Карт (проверено 09.2026). */}
         <script
           type="application/ld+json"

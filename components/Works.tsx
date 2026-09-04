@@ -2,6 +2,7 @@
 
 import { gsap, animateTextOnScroll } from '@/lib/gsap';
 import { useSectionAnimation } from '@/lib/useSectionAnimation';
+import { asset } from '@/lib/asset';
 import { works } from '@/lib/content';
 
 /**
@@ -62,7 +63,7 @@ export default function Works() {
           {works.items.map((item) => (
             <div className="works__item" key={item.name}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.src} alt={item.name} loading="lazy" />
+              <img src={asset(item.src)} alt={item.name} loading="lazy" />
               <div className="works__item-info">
                 <span className="works__item-name">{item.name}</span>
                 <span className="works__item-meta">{item.meta}</span>

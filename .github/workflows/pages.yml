@@ -2,7 +2,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - claude/site-deployment-8dcky9
+      - claude/new-session-0qeeoo
   workflow_dispatch:
 
 permissions:
@@ -27,7 +30,13 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - name: Build
+        # Сайт репозитория живёт по адресу <owner>.github.io/<repo>/,
+        # поэтому сборке нужен подпуть. На Vercel и на своём домене
+        # переменная не задаётся, и сайт собирается от корня.
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+        run: npm run build
       - run: touch out/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

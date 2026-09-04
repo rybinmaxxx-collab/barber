@@ -2,6 +2,7 @@
 
 import { gsap, animateTextOnScroll } from '@/lib/gsap';
 import { useSectionAnimation } from '@/lib/useSectionAnimation';
+import { asset } from '@/lib/asset';
 import { contacts, master } from '@/lib/content';
 
 /** Блок 8 — Мастер (ТЗ, раздел 9): с блоком «Второе кресло». */
@@ -89,7 +90,7 @@ export default function Master() {
 
       <div className="master__photo">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/nadir.svg" alt="Надир — барбер" />
+        <img src={asset('/images/nadir.svg')} alt="Надир — барбер" />
       </div>
     </section>
   );
