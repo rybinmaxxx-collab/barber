@@ -1,22 +1,24 @@
 import type { Config } from 'tailwindcss';
 
-// Tailwind включён по ТЗ и используется для утилит раскладки.
-// Основа оформления — BEM-классы из ТЗ в app/globals.css: они переносятся 1:1,
-// поэтому preflight отключён, чтобы не спорить с ними за базовые стили.
+// Tailwind оставлен для утилит раскладки. Основа оформления — классы
+// макета в app/globals.css, поэтому preflight отключён: он спорил бы
+// с базовыми стилями макета.
 const config: Config = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   corePlugins: { preflight: false },
   theme: {
     extend: {
       colors: {
-        ink: '#0a0a0a',
-        'ink-soft': '#0f0f0f',
-        bone: '#f5f5f5',
-        brass: '#c9a96e',
+        bg: '#0e0f12',
+        ink: '#eceef2',
+        dim: '#9aa0ab',
+        faint: '#5d626d',
+        accent: '#d9a066',
       },
       fontFamily: {
-        display: ['Oswald', 'Inter', 'system-ui', 'sans-serif'],
-        body: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Unbounded', 'system-ui', 'sans-serif'],
+        body: ['Golos Text', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
     },
   },

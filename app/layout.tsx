@@ -40,12 +40,12 @@ export const metadata: Metadata = {
     ICBM: '55.606, 37.532',
   },
   icons: {
-    icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2307080a'/%3E%3Cpath d='M8 4h16v24H8z' fill='%23f4efe6'/%3E%3Cpath d='M8 4l16 8v6L8 10zM8 16l16 8v4L8 20z' fill='%23c9a227'/%3E%3C/svg%3E",
+    icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230e0f12'/%3E%3Cpath d='M8 4h16v24H8z' fill='%23eceef2'/%3E%3Cpath d='M8 4l16 8v6L8 10zM8 16l16 8v4L8 20z' fill='%23d9a066'/%3E%3C/svg%3E",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#07080a',
+  themeColor: '#0e0f12',
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',

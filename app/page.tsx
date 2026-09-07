@@ -1,9 +1,5 @@
-'use client';
-
-import { useState } from 'react';
-import Preloader from '@/components/Preloader';
-import SmoothScroll from '@/components/SmoothScroll';
-import PageTransition from '@/components/PageTransition';
+import Stage from '@/components/Stage';
+import Reveal from '@/components/Reveal';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Score from '@/components/Score';
@@ -16,41 +12,53 @@ import Master from '@/components/Master';
 import Reviews from '@/components/Reviews';
 import Faq from '@/components/Faq';
 import Location from '@/components/Location';
+import { footer, statement } from '@/lib/content';
 
 /**
- * Порядок блоков — из ТЗ: Preloader → Hero → Счёт → Позиция → Ремесло →
- * Прайс → Отцы и сыновья → Работы → Мастер → Отзывы → Вопросы → Как дойти.
+ * Порядок блоков: Hero → Счёт → Позиция → Ремесло → Прайс →
+ * Отцы и сыновья → Работы → Мастер → Отзывы → Вопросы → Как дойти.
  */
 export default function Page() {
-  const [ready, setReady] = useState(false);
-
   return (
     <>
       <a className="skip-link" href="#price">
         К прайсу и записи
       </a>
 
-      <Preloader onDone={() => setReady(true)} />
-      <SmoothScroll />
-
-      {/* Шапка вне контейнера перехода: clip-path на предке ломает position: fixed. */}
+      <Stage />
+      <Reveal />
       <Header />
 
-      <PageTransition ready={ready}>
-        <main>
-          <Hero ready={ready} />
-          <Score />
-          <Manifesto />
-          <Craft />
-          <Price />
-          <Fathers />
-          <Works />
-          <Master />
-          <Reviews />
-          <Faq />
-          <Location />
-        </main>
-      </PageTransition>
+      <main>
+        <Hero />
+        <Score />
+        <Manifesto />
+        <Craft />
+        <Price />
+        <Fathers />
+        <Works />
+        <Master />
+        <Reviews />
+        <Faq />
+
+        <section className="statement">
+          <p className="reveal">
+            {statement.before}
+            <em>{statement.accent}</em>
+          </p>
+        </section>
+
+        <Location />
+      </main>
+
+      <footer className="footer">
+        <p className="foot-brand">{footer.brand}</p>
+        <div className="foot-bottom">
+          {footer.lines.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </div>
+      </footer>
     </>
   );
 }

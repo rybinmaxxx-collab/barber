@@ -121,7 +121,7 @@ export const schema = {
           '@type': 'ListItem',
           position: 3,
           name: 'Контакты',
-          item: 'https://barber-ot-boga.ru/#location',
+          item: 'https://barber-ot-boga.ru/#contact',
         },
       ],
     },
