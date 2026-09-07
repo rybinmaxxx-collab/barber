@@ -14,7 +14,7 @@
 | Стили | Классы макета в `app/globals.css` + Tailwind для утилит |
 | Движение | CSS-переходы + IntersectionObserver (`components/Reveal.tsx`) |
 | 3D | three.js: ножницы из примитивов, без внешних моделей |
-| Хостинг | Vercel или GitHub Pages — сборка статическая (`output: 'export'`) |
+| Хостинг | Vercel: сборка статическая (`output: 'export'`), параметры — в `vercel.json` |
 
 Шрифты (Unbounded, Golos Text, JetBrains Mono — только кириллица и латиница, OFL)
 **самохостятся** в `app/fonts` и подключаются из `app/fonts.css`: ноль сторонних
@@ -52,6 +52,17 @@ lib/
   schema.ts         микроразметка @graph
   asset.ts          пути к файлам из public с учётом подпути деплоя
 ```
+
+## Деплой
+
+Сайт живёт на Vercel: проект подключён к репозиторию, каждый push собирается
+автоматически. Параметры сборки заданы в `vercel.json` (`npm run build`,
+раздаётся папка `out`), чтобы не зависеть от настроек в панели Vercel — именно
+их расхождение с `output: 'export'` раньше давало `404: NOT_FOUND` на корне.
+
+Если понадобится GitHub Pages, нужен подпуть: собирать с
+`NEXT_PUBLIC_BASE_PATH=/<имя-репозитория>` и включить Pages в
+Settings → Pages → Source: GitHub Actions (из workflow это сделать нельзя).
 
 ## Команды
 
