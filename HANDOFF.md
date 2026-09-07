@@ -124,7 +124,7 @@ fade, grooming, lifestyle.
 | `assets/js/main.js` | Lenis, ScrollTrigger, шкала глав, мобильное меню, статус «открыто», reveal, курсор, счётчики |
 | `assets/js/scene.js` | Three.js: опасная бритва, привязанная ко всему скроллу |
 | `assets/vendor/` | three.js, GSAP, ScrollTrigger, Lenis — локально |
-| `assets/fonts/` | Oswald + Manrope, кириллица и латиница (OFL) |
+| `app/fonts/` | Unbounded + Golos Text + JetBrains Mono, кириллица и латиница (OFL) |
 | `lab/index.html` | каталог живых образцов движения, блоков и палитр с кодами |
 | `PIPELINE.md` | регламент производства сайтов — переиспользуется на следующих проектах |
 | `PROCESS.md` | ворота, протокол правок, карта кодов блоков |

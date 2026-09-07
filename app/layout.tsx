@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { schema } from '@/lib/schema';
+import { asset } from '@/lib/asset';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://barber-ot-boga.ru'),
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   description:
     'Барбершоп «Барбер от Бога», Москва, Ясенево, ул. Тарусская 14к1, 200 м от метро. Один мастер, одно кресло, запись заранее. Стрижка 1300 ₽, ножницами 1500 ₽, с бородой 2000 ₽, детская от 1000 ₽. 5,0 на Яндекс.Картах, 74 отзыва, «Хорошее место 2026». Ежедневно 10:00–22:00.',
   alternates: { canonical: 'https://barber-ot-boga.ru/' },
-  manifest: '/manifest.webmanifest',
+  manifest: asset('/manifest.webmanifest'),
   robots: {
     index: true,
     follow: true,
@@ -39,12 +40,12 @@ export const metadata: Metadata = {
     ICBM: '55.606, 37.532',
   },
   icons: {
-    icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2307080a'/%3E%3Cpath d='M8 4h16v24H8z' fill='%23f4efe6'/%3E%3Cpath d='M8 4l16 8v6L8 10zM8 16l16 8v4L8 20z' fill='%23c9a227'/%3E%3C/svg%3E",
+    icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230e0f12'/%3E%3Cpath d='M8 4h16v24H8z' fill='%23eceef2'/%3E%3Cpath d='M8 4l16 8v6L8 10zM8 16l16 8v4L8 20z' fill='%23d9a066'/%3E%3C/svg%3E",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#07080a',
+  themeColor: '#0e0f12',
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
@@ -54,20 +55,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru">
       <head>
-        <link
-          rel="preload"
-          href="/fonts/oswald-600-cyrillic.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/manrope-400-cyrillic.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
         {/* Микроразметка: значения — из карточки Яндекс.Карт (проверено 09.2026). */}
         <script
           type="application/ld+json"

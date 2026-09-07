@@ -4,8 +4,8 @@
   "lang": "ru",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#08090b",
-  "theme_color": "#08090b",
+  "background_color": "#0e0f12",
+  "theme_color": "#0e0f12",
   "description": "Мужской барбершоп в Москве, ул. Тарусская 14к1. Запись: +7 926 584-54-00.",
   "icons": [
     { "src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
